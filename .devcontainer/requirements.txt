@@ -4,3 +4,5 @@ scipy
 tqdm 
 matplotlib
 glob2
+ipython
+ipykernel
