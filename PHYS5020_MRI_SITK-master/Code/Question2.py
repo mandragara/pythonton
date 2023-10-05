@@ -16,8 +16,8 @@ def get_length(img, row, col, axis):
     # 1. Get the line profile along a row or a column.
     # HINT: Oblique lines not allowed. (oblique = straight but not horizontal or vert)
     image_array = sitk.GetArrayFromImage(img)
-    print("image size: ", np.size(image_array))
-    print("full array", image_array)  # full array
+    # print("image size: ", np.size(image_array))
+    # print("full array", image_array)  # full array
 
     if axis == "row":
         profile = image_array[:, row, :]
@@ -25,16 +25,15 @@ def get_length(img, row, col, axis):
     elif axis == "col":
         profile = image_array[:, :, col]
 
-    print("profile", profile)  # image col/row
-    print("profile size: ", np.size(profile))
+    # print("profile", profile)  # image col/row
+    # print("profile size: ", np.size(profile))
 
     # 2. Identify indices of all voxels along the line where values are greater than 50% of the mean
 
     # Calculate the mean value of the profile
     mean_value = np.mean(profile)
     half_of_mean = np.divide(mean_value, 2)
-    # half_of_mean = 0
-    print("half_of_mean", half_of_mean)
+    # print("half_of_mean", half_of_mean)
 
     # Identify indices
     # Get the indices of all voxels with values greater than 50% of the mean
@@ -42,13 +41,13 @@ def get_length(img, row, col, axis):
         index for index in range(len(profile[0])) if profile[0][index] > half_of_mean
     ]
 
-    print("indexes: ", indexes)
-    print("num indexes: ", np.size(indexes))
+    # print("indexes: ", indexes)
+    # print("num indexes: ", np.size(indexes))
 
     # 3. Calculate length as the difference between the min and max indices (in pixels)
 
     indice_delta = np.max(indexes) - np.min(indexes)
-    print("indice_delta ", indice_delta)
+    # print("indice_delta ", indice_delta)
 
     length_in_pixels = indice_delta
 
@@ -107,23 +106,20 @@ def get_phantom_length(file_names, slice_num):
     largest_length = 0
     itteration = 0
     for attempt in range(16):
-        print(columns)
+        # print(columns)
         col_position = int(np.round(np.divide(columns, 2), 0)) - (attempt * 5)
         length_in_pixels = get_length(img, 0, col_position, "col")
-        print("length_in_pixels 1")
-        print(length_in_pixels)
+        # print("length_in_pixels: ", length_in_pixels)
         if length_in_pixels > largest_length:
             largest_length = length_in_pixels
             itteration = attempt
 
     length_in_pixels = largest_length
-    print("itteration: ", itteration)
-    print("length_in_pixels")
-    print(length_in_pixels)
+    # print("itteration: ", itteration)
+    # print("length_in_pixels: ", length_in_pixels)
 
     # 4. Calculate length in mm
-    print("pixel_size_x")
-    print(pixel_size_x)
+    # print("pixel_size_x: ", pixel_size_x)
     length = np.multiply(length_in_pixels, pixel_size_x)
 
     return length

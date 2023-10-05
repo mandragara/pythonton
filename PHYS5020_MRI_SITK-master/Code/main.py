@@ -50,12 +50,16 @@ length = Question2.get_phantom_length(file_names, slice_idx)
 print("Phantom length (mm) = " + str(length) + "\n")
 print(file_names)
 
+
+# Diameter measurement
+# -- probs wrong but gives numbers
 series_idx = 1 - 1  # Enter the index of the image series needed for this measurement
 slice_idx = 1 - 1  # Enter the index of the slice used for this measurement
 file_names = common_functions.get_dicom_series(join(base_dir, list_folders[series_idx]))
 length = Question2.get_diameter(file_names, slice_idx)
-print("Phantom length (mm) = " + str(length) + "\n")
+print("Diameter length (X,Y mm) = " + str(length) + "\n")
 print(file_names[slice_idx])
+# -- END probs wrong but gives numbers
 
 # Diameter measurement
 # slice_idx = 1 - 1  # Enter the indices of the slice used for this test
@@ -81,14 +85,15 @@ print("Question 3:")
 
 # HINT: complete functions get_intensities get_percent_image_uniformity in Question3.py
 
-# slice_idx = ????  # Enter the indices of the slice used for this test
-# series_idx = ????  # Enter the indices of the series used for this test
-# for i in series_idx:
-#     files = get_dicom_series(list_folders[i])
-#     piu = get_percent_image_uniformity(files, slice_idx)
-#     print('\n' + str(basename(list_folders[i])))
-#     print('\n' + 'Percent image uniformity (%) \n')
-#     print('Slice ' + str(slice_idx + 1) + ': ' + str(piu))
+series_idx = 1 - 1  # Enter the indices of the series used for this test
+slice_idx = [0,1,2,3,4,5,6,7,8,9,10] # Enter the indices of the slice used for this test
+
+files = common_functions.get_dicom_series(join(base_dir, list_folders[series_idx]))
+for i in slice_idx:
+    piu = Question3.get_percent_image_uniformity(files, slice_idx[i], 20000) # 200 cm^2 is 20,000 mm^2
+    print("\n",files[slice_idx[i]])
+    print("\n" + "Percent image uniformity (%) \n")
+    print("Slice " + str(slice_idx[i] + 1) + ": " + str(piu))
 
 # %% ######## Question 4 #########
 print()
@@ -131,7 +136,7 @@ print("Question 5:")
 
 # for i in series_idx:
 #     files = get_dicom_series(list_folders[i])
-#     perc_ghost = get_percentage_ghosting(files, slice_idx)
+#     perc_ghost = get_percentage_ghosting(files, slice_idx, 20000)
 
 #     print('\n' + str(basename(list_folders[i])))
 #     print('\n' + 'Percent-signal ghosting (%) \n')
