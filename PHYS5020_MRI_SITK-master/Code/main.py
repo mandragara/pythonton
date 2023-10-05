@@ -10,14 +10,16 @@ from os.path import join, basename
 
 import common_functions
 import Question1
-# import Question2
-# import Question3
+import Question2
+import Question3
+
 # import Question4
 # import Question5
 
 # %%
 base_dir = join(getcwd(), "PHYS5020_MRI_SITK-master/Data")
 list_folders = glob(join(base_dir, "*"))
+print(list_folders)
 
 print("'Data' folders found in", base_dir)
 for each_folder in list_folders:
@@ -29,6 +31,7 @@ print("Question 1:")
 
 # HINT: complete the get_dicom_series function in common_functions.py in Question1.py
 for each_folder in list_folders:
+    print(basename(each_folder))
     files = common_functions.get_dicom_series(each_folder)
     Question1.get_tags(files)
 
@@ -40,27 +43,37 @@ print("Question 2:")
 # get_diameter and get_length in Question2.py
 
 # # Length measurement
-# series_idx = ???? # Enter the index of the image series needed for this measurement
-# slice_idx = ???? # Enter the index of the slice used for this measurement
-# files = get_dicom_series(join(base_dir, list_folders[series_idx]))
-# length = get_phantom_length(files, slice_idx)
-# print('Phantom length (mm) = ' + str(length) + '\n')
+series_idx = 3 - 1  # Enter the index of the image series needed for this measurement
+slice_idx = 1 - 1  # Enter the index of the slice used for this measurement
+file_names = common_functions.get_dicom_series(join(base_dir, list_folders[series_idx]))
+length = Question2.get_phantom_length(file_names, slice_idx)
+print("Phantom length (mm) = " + str(length) + "\n")
+print(file_names)
 
-# # Diameter measurement
-# slice_idx = ????  # Enter the indices of the slice used for this test
-# series_idx = ????  # ????
+series_idx = 1 - 1  # Enter the index of the image series needed for this measurement
+slice_idx = 1 - 1  # Enter the index of the slice used for this measurement
+file_names = common_functions.get_dicom_series(join(base_dir, list_folders[series_idx]))
+length = Question2.get_diameter(file_names, slice_idx)
+print("Phantom length (mm) = " + str(length) + "\n")
+print(file_names[slice_idx])
+
+# Diameter measurement
+# slice_idx = 1 - 1  # Enter the indices of the slice used for this test
+# series_idx = 1 - 1  # ????
 # # Enter the list index of the image series needed for this measurement
 # for i in series_idx:
-#     files = get_dicom_series(join(base_dir, list_folders[i]))
-#     vertical_diameter, horizontal_diameter = get_diameter(files, slice_idx)
-#     print('\n' + basename(list_folders[i]))
-#     print('\n' + 'Vertical diameter (mm) \n')
+#     files = common_functions.get_dicom_series(join(base_dir, list_folders[i]))
+#     vertical_diameter, horizontal_diameter = common_functions.get_diameter(
+#         files, slice_idx
+#     )
+#     print("\n" + basename(list_folders[i]))
+#     print("\n" + "Vertical diameter (mm) \n")
 #     for sl in range(0, len(slice_idx)):
-#         print('Slice ' + str(slice_idx[sl] + 1) + ':' + str(vertical_diameter[sl]))
+#         print("Slice " + str(slice_idx[sl] + 1) + ":" + str(vertical_diameter[sl]))
 
-#     print('\n' + 'Horizontal diameter (mm) \n')
+#     print("\n" + "Horizontal diameter (mm) \n")
 #     for sl in range(0, len(slice_idx)):
-#         print('Slice ' + str(slice_idx[sl] + 1) + ':' + str(horizontal_diameter[sl]))
+#         print("Slice " + str(slice_idx[sl] + 1) + ":" + str(horizontal_diameter[sl]))
 
 # %% ######## Question 3 #########
 print()

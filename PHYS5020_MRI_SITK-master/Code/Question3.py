@@ -5,7 +5,10 @@ Created on Fri Aug 27 16:54:20 2021
 @author: siris
 """
 
-<<insert required import statements here>>
+
+import SimpleITK as sitk
+import numpy as np
+import common_functions
 
 
 def get_intensities(img, mask):
@@ -31,6 +34,7 @@ def get_percent_image_uniformity(files, slice_num):
     # 3. Extract the required slice from the image
 
     # 4. Create a large circular mask
+    common_functions.circular_mask(img, centre, radius)
 
     # 5. Get the highest and lowest mean intensities within this ROI
 
