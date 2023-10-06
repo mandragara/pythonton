@@ -85,7 +85,7 @@ def calculate_t2map(files):
                     params, _ = scipy.optimize.curve_fit(
                         mono_exponential_decay, xdata, ydata, p0=p0_init
                     )
-                    t2_slice[n] = params[1]  # T2 is the second parameter
+                    t2_slice[n] = np.divide(1,params[1])  # T2 is the second parameter
                     
                     # Perform fitting of the signal intensities in the voxel
                     # HINT: Use scipy.optimize.curve_fit to fit ydata to the mono-exponential decay function
@@ -110,7 +110,8 @@ def show_maps(ref_img, ref_img_title, calc_img, calc_img_title):
     # Hint: intensity range
     fig, ax = plt.subplots(1, 2, figsize=(12, 5))
 
-    embiggening_factor=np.mean(ref_img)/np.mean(calc_img)
+    #embiggening_factor=np.mean(ref_img)/np.mean(calc_img)
+    embiggening_factor=1
 
     # Adjusting the intensity range - you can set vmin and vmax based on the range of T2 values you expect
     im1 = ax[0].imshow(
