@@ -114,13 +114,14 @@ files = common_functions.get_dicom_series(list_folders[series_idx])
 # T2_map_acr_imgarr = sitk.GetArrayFromImage(T2_map_acr)
 
 # this thing takes a while so i save it and open
+
 # T2_map_calc = np.squeeze(Question4.calculate_t2map(files))
 # with open("data.pkl", "wb") as f:
 #     pickle.dump(T2_map_calc, f)
-
+# print(T2_map_calc.shape)
 with open("data.pkl", "rb") as f:
    T2_map_calc = pickle.load(f)
-print(T2_map_calc)
+print(T2_map_calc.shape)
 
 series_idx = 6-1
 files2 = common_functions.get_dicom_series(list_folders[series_idx])
@@ -141,10 +142,10 @@ print(np.max(T2_map_calc))
 print(np.size(T2_map_acr_imgarr))
 print(np.size(T2_map_calc))
 
-Question4.show_maps(T2_map_acr_imgarr, 'ACR T2 map', T2_map_calc, 'Calculated T2 map')
+Question4.show_maps(T2_map_acr_imgarr, 'ACR T2 map', T2_map_calc[:,:], 'Calculated T2 map')
 
 mask = common_functions.circular_mask2(T2_map_acr_imgarr[:, :], [80, 80], 5)  # [80, 80], 5
-mask = mask.astype(np.int32)
+mask.astype(np.int32)
 
 # Get ROI statistics in a circular region
 mean, sd, median, iqr = common_functions.get_ROI_stats(T2_map_acr_imgarr[:, :], mask)

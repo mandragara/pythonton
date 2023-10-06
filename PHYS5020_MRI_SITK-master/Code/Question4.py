@@ -63,7 +63,6 @@ def calculate_t2map(files):
         s.append(img_array)
 
     s = np.array(s)
-
     # 3. Perform T2 fitting for each voxel
     dim = np.shape(s)  # HINT: Note the array dimensions are te, z, r, c
     t2map = np.zeros(shape=dim[1:])
@@ -74,6 +73,7 @@ def calculate_t2map(files):
     for sl in tqdm.tqdm(range(dim[1]), desc="Calculating T2 map..."):
         t2_slice = np.zeros(dim[2] * dim[3])
         s_z = np.zeros(shape=(dim[0], dim[2] * dim[3]))
+        
         for k in range(dim[0]):
             s_z[k, :] = np.reshape(s[k, sl, :, :], (1, dim[2] * dim[3]))
 
@@ -86,7 +86,7 @@ def calculate_t2map(files):
                         mono_exponential_decay, xdata, ydata, p0=p0_init
                     )
                     t2_slice[n] = params[1]  # T2 is the second parameter
-
+                    
                     # Perform fitting of the signal intensities in the voxel
                     # HINT: Use scipy.optimize.curve_fit to fit ydata to the mono-exponential decay function
                     # and extract fitted parameter 'b'. Calculate the T2 value from 'b' and assign to
