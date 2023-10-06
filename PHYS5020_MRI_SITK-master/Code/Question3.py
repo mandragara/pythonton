@@ -12,7 +12,6 @@ import common_functions
 import matplotlib.image
 
 
-
 def get_intensities(img, mask):
     # 1. Get the 99th percentile and the 1st percentile values in the image within the mask
     img_2d = np.squeeze(img)
@@ -23,7 +22,7 @@ def get_intensities(img, mask):
     # HINT: this is output argument 'high'
     high = roi_values[roi_values >= perc_99].mean()
 
-    matplotlib.image.imsave('name.png', img_2d*mask)
+    matplotlib.image.imsave("name.png", img_2d * mask)
     # 3. Get mean values from voxels with intensities <= 1st percentile
     # HINT: this is output argument 'low'
     low = roi_values[roi_values <= perc_1].mean()
@@ -36,6 +35,10 @@ def get_percent_image_uniformity(file_names, slice_num, area):
     # HINT: you will need to handle 4D and 3D image series differently
     img = sitk.ReadImage(file_names[slice_num])
     image_array = sitk.GetArrayFromImage(img)
+
+    tags_2 = ["0018|0087"]
+    field = int(img.GetMetaData(tags_2[0]))
+    print("field strength is", field)
 
     # 2. From the image metadata, number of rows, number of columns, pixel size in x and y
     tags = ["0018|0024", "0018|0050", "0028|0010", "0028|0011", "0028|0030"]
